@@ -11,6 +11,7 @@ This project implements various XAI techniques to explain predictions made by de
 - Text Analysis XAI:
   - SHAP
   - LIME
+- Modular execution for separate testing of image and text components
 
 ## Project Structure
 
@@ -79,17 +80,34 @@ data/tweet_sentiment_extraction/
 
 ## Usage
 
-Run the main script to generate XAI explanations:
+The main script now supports modular execution through command line arguments:
 
 ```bash
+# Process both image and text datasets (default)
 python main.py
+
+# Process only tumor detection images
+python main.py --mode image
+
+# Process only tweet sentiment analysis
+python main.py --mode text
+
+# Process a specific number of samples
+python main.py --mode all --samples 5
 ```
 
-The script will:
-1. Load both image and text models
-2. Process 3 sample images and 3 sample tweets
-3. Generate explanations using different XAI techniques
-4. Save visualizations in the `results/xai_results_[timestamp]/` directory
+### Command Line Arguments
+
+- `--mode`: Choose which dataset to process
+  - `all`: Process both image and text datasets (default)
+  - `image`: Process only tumor detection images
+  - `text`: Process only tweet sentiment analysis
+- `--samples`: Number of samples to process (default: 3)
+
+For help with command line arguments:
+```bash
+python main.py --help
+```
 
 ## Output
 
@@ -97,12 +115,11 @@ The results will be saved in a timestamped directory under `results/`. For each 
 - Image explanations: `explanations_[i].png`
 - Text explanations: `text_explanations_[i].png`
 
-Each visualization includes the original input and explanations from different XAI methods.
+Each visualization includes the original input and explanations from different XAI methods. The script also generates an execution log file that tracks the processing of each sample.
 
 ## TODO
 
 Currently only image part works. 
 
 - [ ] Verify image part output. 
-
 - [ ] Fix text part.
