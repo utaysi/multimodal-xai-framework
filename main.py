@@ -2,9 +2,11 @@ import os
 import torch
 import logging
 import argparse
+import numpy as np
 import torchvision.transforms as transforms
 from models.image_model import get_image_model
 from models.text_model import get_text_model
+from utils.evaluator import XAIEvaluator
 from utils.data_loader import TumorDataset, TweetDataset
 from utils.visualizer import visualize_explanations, visualize_text_explanations
 from xai.gradcam import GradCAMExplainer
@@ -82,9 +84,40 @@ def process_image_data(device, output_dir, base_dir, num_samples=3):
         logging.info(f"\nProcessing image {i+1}")
         logging.info(f"True label: {'Malignant' if label == 1 else 'Benign'}")
         
+        # Generate explanations
         gradcam_exp = gradcam.explain(image)
         shap_exp = shap_image.explain(image)
         lime_exp = lime_image.explain(image)
+        
+        # Evaluate and compare XAI methods
+        evaluator = XAIEvaluator()
+        
+        # Calculate faithfulness scores
+        gradcam_faith = evaluator.evaluate_faithfulness(image_model, image, gradcam_exp, mode='image')
+        shap_faith = evaluator.evaluate_faithfulness(image_model, image, shap_exp, mode='image')
+        lime_faith = evaluator.evaluate_faithfulness(image_model, image, lime_exp, mode='image')
+        
+        # Log results
+        logging.info("\nXAI Method Evaluation:")
+        logging.info(f"GradCAM - Faithfulness: {gradcam_faith:.3f}, Range: {gradcam_exp.min():.3f} to {gradcam_exp.max():.3f}")
+        logging.info(f"SHAP - Faithfulness: {shap_faith:.3f}, Range: {shap_exp.min():.3f} to {shap_exp.max():.3f}")
+        if isinstance(lime_exp, np.ndarray):
+            logging.info(f"LIME - Faithfulness: {lime_faith:.3f}, Range: {lime_exp.min():.3f} to {lime_exp.max():.3f}")
+        
+        # Compare methods
+        results = {
+            'GradCAM': {'faithfulness': gradcam_faith},
+            'SHAP': {'faithfulness': shap_faith},
+            'LIME': {'faithfulness': lime_faith}
+        }
+        comparison = evaluator.compare_methods(results)
+        
+        logging.info("\nMethod Comparison:")
+        logging.info(f"Best performing method: {comparison['overall_best']}")
+        if comparison['recommendations']:
+            logging.info("Recommendations:")
+            for rec in comparison['recommendations']:
+                logging.info(f"- {rec}")
         
         output_path = os.path.join(output_dir, f'explanations_{i}.png')
         visualize_explanations(image, gradcam_exp, shap_exp, lime_exp, output_path)
@@ -119,8 +152,51 @@ def process_text_data(device, output_dir, base_dir, num_samples=3):
         logging.info(f"Text: {text}")
         logging.info(f"True sentiment: {['Negative', 'Neutral', 'Positive'][label]}")
         
+        # Generate explanations
         shap_exp = shap_text.explain(text)
         lime_exp = lime_text.explain(text)
+        
+        # Evaluate and compare XAI methods
+        evaluator = XAIEvaluator()
+        
+        # Calculate faithfulness scores
+        shap_faith = evaluator.evaluate_faithfulness(text_model, text, shap_exp, mode='text')
+        lime_faith = evaluator.evaluate_faithfulness(text_model, text, lime_exp, mode='text')
+        
+        # Log results
+        logging.info("\nXAI Method Evaluation:")
+        
+        # Get tokens from text
+        tokens = text.split()
+        
+        # SHAP results
+        shap_values = np.array(shap_exp).flatten() if hasattr(shap_exp, 'flatten') else np.array(shap_exp)
+        logging.info(f"\nSHAP - Faithfulness: {shap_faith:.3f}")
+        logging.info("Token importance scores:")
+        for token, importance in zip(tokens, shap_values):
+            logging.info(f"  {token}: {importance:.3f}")
+        
+        # LIME results
+        lime_dict = dict(lime_exp)
+        logging.info(f"\nLIME - Faithfulness: {lime_faith:.3f}")
+        logging.info("Token importance scores:")
+        for token in tokens:
+            importance = lime_dict.get(token, 0.0)
+            logging.info(f"  {token}: {importance:.3f}")
+        
+        # Compare methods
+        results = {
+            'SHAP': {'faithfulness': shap_faith},
+            'LIME': {'faithfulness': lime_faith}
+        }
+        comparison = evaluator.compare_methods(results)
+        
+        logging.info("\nMethod Comparison:")
+        logging.info(f"Best performing method: {comparison['overall_best']}")
+        if comparison['recommendations']:
+            logging.info("Recommendations:")
+            for rec in comparison['recommendations']:
+                logging.info(f"- {rec}")
         
         output_path = os.path.join(output_dir, f'text_explanations_{i}.png')
         visualize_text_explanations(text, shap_exp, lime_exp, output_path)

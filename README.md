@@ -11,6 +11,10 @@ This project implements various XAI techniques to explain predictions made by de
 - Text Analysis XAI:
   - SHAP
   - LIME
+- Quantitative Evaluation:
+  - Faithfulness scoring
+  - Method comparison
+  - Performance recommendations
 - Modular execution for separate testing of image and text components
 
 ## Project Structure
@@ -24,7 +28,13 @@ This project implements various XAI techniques to explain predictions made by de
 │   └── tweet_sentiment_extraction/  # Text dataset
 ├── models/                   # Neural network models
 ├── utils/                    # Utility functions
+│   ├── data_loader.py       # Dataset loading utilities
+│   ├── evaluator.py         # XAI evaluation metrics
+│   └── visualizer.py        # Visualization utilities
 ├── xai/                     # XAI implementations
+│   ├── gradcam.py          # GradCAM implementation
+│   ├── lime_explainer.py   # LIME wrapper
+│   └── shap_explainer.py   # SHAP wrapper
 ├── main.py                  # Main execution script
 └── requirements.txt         # Python dependencies
 ```
@@ -80,7 +90,7 @@ data/tweet_sentiment_extraction/
 
 ## Usage
 
-The main script now supports modular execution through command line arguments:
+The main script supports modular execution through command line arguments:
 
 ```bash
 # Process both image and text datasets (default)
@@ -112,14 +122,55 @@ python main.py --help
 ## Output
 
 The results will be saved in a timestamped directory under `results/`. For each processed sample:
-- Image explanations: `explanations_[i].png`
-- Text explanations: `text_explanations_[i].png`
 
-Each visualization includes the original input and explanations from different XAI methods. The script also generates an execution log file that tracks the processing of each sample.
+### Visualizations
+- Image explanations: `explanations_[i].png`
+  - Original image
+  - GradCAM heatmap
+  - SHAP values
+  - LIME regions
+- Text explanations: `text_explanations_[i].png`
+  - SHAP token importance
+  - LIME word contributions
+
+### Quantitative Evaluation
+The script generates an `execution.log` file containing:
+- Model predictions
+- Explanation method evaluations:
+  - Faithfulness scores
+  - Value ranges
+  - Method comparisons
+- Performance recommendations
+
+### Evaluation Metrics
+
+1. **Faithfulness**: Measures how well explanations reflect model decisions
+   - Higher scores indicate better alignment with model behavior
+   - Calculated by measuring prediction changes when important features are removed
+
+2. **Method Comparison**: Analyzes relative performance of XAI methods
+   - Identifies best performing method
+   - Generates improvement recommendations
+   - Provides value ranges and statistical measures
+
+## Evaluation Results Example
+
+```
+XAI Method Evaluation:
+GradCAM - Faithfulness: 0.052, Range: 0.000 to 0.992
+SHAP - Faithfulness: 0.012, Range: 0.001 to 0.006
+LIME - Faithfulness: 0.006, Range: -2.118 to 2.640
+
+Method Comparison:
+Best performing method: GradCAM
+Recommendations:
+- Consider improving feature attribution if faithfulness scores are low
+- Analyze consistency across similar inputs
+
 
 ## TODO
 
-Currently only image part works. 
 
-- [ ] Verify image part output. 
-- [ ] Fix text part.
+- [ ] Verify output quality for both sections. Make optimizations. 
+
+- [ ] Create presentation. 

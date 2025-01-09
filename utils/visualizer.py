@@ -56,19 +56,32 @@ def visualize_text_explanations(text, shap_exp, lime_exp, output_path):
     Args:
         text: Original input text
         shap_exp: SHAP values for each token
-        lime_exp: LIME explanation scores
+        lime_exp: List of (word, importance) tuples from LIME
     """
     plt.figure(figsize=(12, 6))
     
+    # Convert text to list of tokens
+    tokens = text.split()
+    
+    # Process SHAP values
+    shap_values = np.array(shap_exp).flatten() if hasattr(shap_exp, 'flatten') else np.array(shap_exp)
+    
+    # Process LIME values (convert from list of tuples)
+    lime_dict = dict(lime_exp)  # Convert LIME tuples to dictionary
+    lime_values = np.array([lime_dict.get(token, 0.0) for token in tokens])
+    
     # SHAP visualization
     plt.subplot(211)
-    plt.barh(range(len(shap_exp)), shap_exp)
+    y_pos = np.arange(len(tokens))
+    plt.barh(y_pos, shap_values)
+    plt.yticks(y_pos, tokens)
     plt.title('SHAP Token Importance')
     plt.xlabel('SHAP value')
     
     # LIME visualization
     plt.subplot(212)
-    plt.barh(range(len(lime_exp)), lime_exp)
+    plt.barh(y_pos, lime_values)
+    plt.yticks(y_pos, tokens)
     plt.title('LIME Token Importance')
     plt.xlabel('LIME score')
     
