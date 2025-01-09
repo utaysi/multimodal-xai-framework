@@ -1,5 +1,6 @@
 import os
 import torch
+import logging
 import torchvision.transforms as transforms
 from models.image_model import get_image_model
 from models.text_model import get_text_model
@@ -26,10 +27,30 @@ def main():
     output_dir = os.path.join(results_dir, f'xai_results_{timestamp}')
     os.makedirs(output_dir, exist_ok=True)
     
+    # Set up logging
+    log_file = os.path.join(output_dir, 'execution.log')
+    
+    # Create formatters
+    file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    console_formatter = logging.Formatter('%(message)s')  # Simpler format for console
+    
+    # Set up handlers
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(file_formatter)
+    
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(console_formatter)
+    
+    # Configure root logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+    
     # Set device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Using device: {device}")
-    print(f"Saving results to: {output_dir}")
+    logging.info(f"Using device: {device}")
+    logging.info(f"Saving results to: {output_dir}")
 
     # 1. Load datasets
     # Image dataset
@@ -39,14 +60,14 @@ def main():
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
     # Load tumor dataset with debug info
-    print(f"\nLooking for tumor images in: {data_dir}")
-    print("Expecting either 'pos'/'neg' or 'malignant'/'benign' subdirectories")
+    logging.info(f"\nLooking for tumor images in: {data_dir}")
+    logging.info("Expecting either 'pos'/'neg' or 'malignant'/'benign' subdirectories")
     
     if os.path.exists(data_dir):
         subdirs = [d for d in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, d))]
-        print(f"Found subdirectories: {subdirs}")
+        logging.info(f"Found subdirectories: {subdirs}")
     else:
-        print(f"Directory not found: {data_dir}")
+        logging.error(f"Directory not found: {data_dir}")
         
     tumor_dataset = TumorDataset(data_dir, transform=transform)
     
@@ -54,12 +75,12 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     tweet_dataset = TweetDataset(tweet_data, tokenizer)
     
-    print(f"Loaded {len(tumor_dataset)} tumor images and {len(tweet_dataset)} tweets")
+    logging.info(f"Loaded {len(tumor_dataset)} tumor images and {len(tweet_dataset)} tweets")
     
     # 2. Initialize models
     image_model = get_image_model().to(device)
     text_model = get_text_model().to(device)
-    print("Models initialized")
+    logging.info("Models initialized")
     
     # 3. Initialize XAI methods
     gradcam = GradCAMExplainer(image_model)
@@ -67,19 +88,19 @@ def main():
     shap_text = ShapExplainer(text_model, 'text')
     lime_image = LimeExplainer(image_model, 'image')
     lime_text = LimeExplainer(text_model, 'text')
-    print("XAI explainers initialized")
+    logging.info("XAI explainers initialized")
     
     # 4. Generate explanations
     # For image data (process 3 images)
-    print("\nGenerating explanations for tumor images...")
+    logging.info("\nGenerating explanations for tumor images...")
     num_images = 3
     for i in range(min(num_images, len(tumor_dataset))):
         start_time = time.time()
         image, label = tumor_dataset[i]
         image = image.to(device)
         
-        print(f"\nProcessing image {i+1}")
-        print(f"True label: {'Malignant' if label == 1 else 'Benign'}")
+        logging.info(f"\nProcessing image {i+1}")
+        logging.info(f"True label: {'Malignant' if label == 1 else 'Benign'}")
         
         # Generate explanations
         gradcam_exp = gradcam.explain(image)
@@ -92,10 +113,10 @@ def main():
         visualize_explanations(image, gradcam_exp, shap_exp, lime_exp, output_path)
         
         elapsed = time.time() - start_time
-        print(f"Time taken: {elapsed:.2f} seconds")
+        logging.info(f"Time taken: {elapsed:.2f} seconds")
     
     # For text data (process 3 tweets)
-    print("\nGenerating explanations for tweets...")
+    logging.info("\nGenerating explanations for tweets...")
     num_tweets = 3
     for i in range(min(num_tweets, len(tweet_dataset))):
         start_time = time.time()
@@ -103,9 +124,9 @@ def main():
         text = data['text']
         label = data['label']
         
-        print(f"\nProcessing tweet {i+1}")
-        print(f"Text: {text}")
-        print(f"True sentiment: {['Negative', 'Neutral', 'Positive'][label]}")
+        logging.info(f"\nProcessing tweet {i+1}")
+        logging.info(f"Text: {text}")
+        logging.info(f"True sentiment: {['Negative', 'Neutral', 'Positive'][label]}")
         
         # Generate explanations
         shap_exp = shap_text.explain(text)
@@ -117,7 +138,7 @@ def main():
         visualize_text_explanations(text, shap_exp, lime_exp, output_path)
         
         elapsed = time.time() - start_time
-        print(f"Time taken: {elapsed:.2f} seconds")
+        logging.info(f"Time taken: {elapsed:.2f} seconds")
 
 if __name__ == '__main__':
     main()
