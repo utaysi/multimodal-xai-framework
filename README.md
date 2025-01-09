@@ -27,6 +27,8 @@ This project implements various XAI techniques to explain predictions made by de
 │   │   └── neg/             # Benign tumor images
 │   └── tweet_sentiment_extraction/  # Text dataset
 ├── models/                   # Neural network models
+│   ├── image_model.py       # Image classification model
+│   └── text_model.py        # Text sentiment model
 ├── utils/                    # Utility functions
 │   ├── data_loader.py       # Dataset loading utilities
 │   ├── evaluator.py         # XAI evaluation metrics
@@ -173,4 +175,4 @@ Recommendations:
 
 - [ ] Verify output quality for both sections. Make optimizations. 
 
-- [ ] Create presentation. 
+- [ ] Create presentation.
