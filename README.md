@@ -168,7 +168,7 @@ Best performing method: GradCAM
 Recommendations:
 - Consider improving feature attribution if faithfulness scores are low
 - Analyze consistency across similar inputs
-
+```
 
 ## TODO
 
