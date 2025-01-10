@@ -51,6 +51,10 @@ class XAIEvaluator:
                 orig_encoding = tokenizer(data, return_tensors='pt', padding=True, truncation=True)
                 mod_encoding = tokenizer(modified_text, return_tensors='pt', padding=True, truncation=True)
                 
+                # Move tokenizer outputs to same device as model
+                orig_encoding = {k: v.to(model.device) for k, v in orig_encoding.items()}
+                mod_encoding = {k: v.to(model.device) for k, v in mod_encoding.items()}
+                
                 with torch.no_grad():
                     orig_output = model(**orig_encoding)
                     mod_output = model(**mod_encoding)

@@ -44,8 +44,9 @@ This project implements various XAI techniques to explain predictions made by de
 ## Requirements
 
 - Python 3.7+
-- PyTorch >= 1.9.0
+- PyTorch >= 1.9.0 (with CUDA support)
 - torchvision >= 0.10.0
+- CUDA toolkit (optional, for GPU acceleration)
 - transformers >= 4.11.0
 - SHAP >= 0.40.0
 - LIME >= 0.2.0
@@ -53,6 +54,17 @@ This project implements various XAI techniques to explain predictions made by de
 - matplotlib >= 3.4.0
 - numpy >= 1.19.0
 - pandas >= 1.3.0
+
+## Hardware Acceleration
+
+The project now supports CUDA acceleration for improved performance on NVIDIA GPUs. Previously limited to CPU execution on M1 Macs, the implementation now automatically detects and utilizes available CUDA devices for:
+- Model inference
+- XAI computations (GradCAM, SHAP, LIME)
+- Batch processing
+
+No code changes are required - the system will automatically use GPU acceleration when available.
+
+120 seconds (On M1 CPU) vs 5 seconds (RTX 4090 GPU) for a single image.  
 
 ## Installation
 
