@@ -1,0 +1,3 @@
+> From: https://xaidataset.github.io/dataset/
+
+- To construct our dataset, we sourced normal pancreas images from the Cancer Imaging Archive. Abnormal scans, featuring pancreatic tumors, were derived from the Medical Segmentation Decathlon dataset (MSD), where initial ground-truth annotations by a medical student were rigorously reviewed and refined by a skilled radiologist. The dataset comprises a total of 281 scans with tumors and 80 scans without tumors. In a preprocessing approach akin to that used for the LIDC-IDRI dataset, we converted the 3D scans into 2D slices by randomly selecting along the z-axis, thus setting the stage for a binary classification task to discern between positive (tumorous) and negative (normal) pancreatic samples.
