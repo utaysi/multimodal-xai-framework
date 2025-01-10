@@ -43,7 +43,7 @@ def setup_output_dir():
     os.makedirs(output_dir, exist_ok=True)
     return output_dir, base_dir
 
-def process_image_data(device, output_dir, base_dir, num_samples=3):
+def process_image_data(device, output_dir, base_dir, num_samples='3'):
     """Process tumor detection images with XAI methods"""
     logging.info("\nProcessing Image Dataset:")
     
@@ -76,7 +76,8 @@ def process_image_data(device, output_dir, base_dir, num_samples=3):
     logging.info("Image XAI explainers initialized")
     
     # Generate explanations
-    for i in range(min(num_samples, len(tumor_dataset))):
+    samples_to_process = len(tumor_dataset) if num_samples == 'all' else min(int(num_samples), len(tumor_dataset))
+    for i in range(samples_to_process):
         start_time = time.time()
         image, label = tumor_dataset[i]
         image = image.to(device)
@@ -125,7 +126,7 @@ def process_image_data(device, output_dir, base_dir, num_samples=3):
         elapsed = time.time() - start_time
         logging.info(f"Time taken: {elapsed:.2f} seconds")
 
-def process_text_data(device, output_dir, base_dir, num_samples=3):
+def process_text_data(device, output_dir, base_dir, num_samples='3'):
     """Process tweet sentiment data with XAI methods"""
     logging.info("\nProcessing Text Dataset:")
     
@@ -142,7 +143,8 @@ def process_text_data(device, output_dir, base_dir, num_samples=3):
     logging.info("Text XAI explainers initialized")
     
     # Generate explanations
-    for i in range(min(num_samples, len(tweet_dataset))):
+    samples_to_process = len(tweet_dataset) if num_samples == 'all' else min(int(num_samples), len(tweet_dataset))
+    for i in range(samples_to_process):
         start_time = time.time()
         data = tweet_dataset[i]
         text = data['text']
@@ -209,9 +211,13 @@ def main():
     parser = argparse.ArgumentParser(description='XAI Analysis for Image and Text Data')
     parser.add_argument('--mode', choices=['all', 'image', 'text'], default='all',
                       help='Which dataset to process (default: all)')
-    parser.add_argument('--samples', type=int, default=3,
-                      help='Number of samples to process (default: 3)')
+    parser.add_argument('--samples', type=str, default='3',
+                      help='Number of samples to process (default: 3) or "all" to process entire dataset')
     args = parser.parse_args()
+    
+    # Validate samples argument
+    if args.samples != 'all' and not args.samples.isdigit():
+        parser.error("--samples must be a positive number or 'all'")
     
     # Setup
     output_dir, base_dir = setup_output_dir()
