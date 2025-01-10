@@ -63,28 +63,44 @@ class ShapExplainer:
             # Create background dataset (black image)
             background = np.zeros((1,) + data.shape)
             
-            # Initialize SHAP explainer for PyTorch
-            explainer = shap.GradientExplainer(
-                model=self.model,
-                data=torch.from_numpy(background).float().permute(0, 3, 1, 2).to(device)
+            # Create a wrapper for the predict function
+            def model_predict(x):
+                if len(x.shape) == 3:
+                    x = np.expand_dims(x, axis=0)
+                return self.predict_fn_image(x)
+            
+            # Create a partition masker for the image
+            masker = shap.maskers.Image("blur(16,16)", data.shape)
+            
+            # Initialize SHAP explainer with the masker
+            explainer = shap.Explainer(
+                model_predict,
+                masker,
+                output_names=['benign', 'malignant']
             )
             
             # Get SHAP values
-            input_tensor = torch.from_numpy(np.expand_dims(data, axis=0)).float().permute(0, 3, 1, 2).to(device)
-            shap_values = explainer.shap_values(input_tensor)
+            shap_values = explainer(
+                np.expand_dims(data, axis=0),
+                max_evals=100,
+                batch_size=10
+            )
             
-            # Process SHAP values for visualization
-            if isinstance(shap_values, list):
-                # For multi-class, take values for predicted class
-                pred_class = self.predict_fn_image(np.expand_dims(data, axis=0)).argmax()
-                shap_values = shap_values[pred_class]
+            # Get values for predicted class
+            pred_class = self.predict_fn_image(np.expand_dims(data, axis=0)).argmax()
+            shap_values = shap_values.values[:, :, :, :, pred_class]  # Get values for predicted class
             
-            # Process SHAP values for visualization
-            attribution_map = np.abs(shap_values[0])  # Get first sample
-            if len(attribution_map.shape) == 3:  # If shape is (C, H, W)
-                attribution_map = attribution_map.mean(axis=0)  # Average over channels -> (H, W)
-            elif len(attribution_map.shape) > 3:  # If shape is more complex
-                attribution_map = attribution_map.mean(axis=tuple(range(attribution_map.ndim-2)))  # Average all but last 2 dims
+            # Reshape to match image dimensions
+            shap_values = shap_values.squeeze()  # Remove batch dimension
+            
+            # Sum across channels and normalize
+            attribution_map = np.sum(shap_values, axis=2)  # Sum channels -> (H, W)
+            attribution_map = np.abs(attribution_map)  # Take absolute values
+            
+            # Normalize to [-1, 1] range
+            max_val = np.max(np.abs(attribution_map))
+            if max_val > 0:
+                attribution_map = attribution_map / max_val
             
             return attribution_map
             

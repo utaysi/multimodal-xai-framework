@@ -31,10 +31,9 @@ def visualize_explanations(image, gradcam_exp, shap_exp, lime_exp, output_path):
     
     # SHAP
     plt.subplot(143)
-    # Normalize SHAP values for visualization
-    shap_min, shap_max = shap_exp.min(), shap_exp.max()
-    shap_norm = (shap_exp - shap_min) / (shap_max - shap_min + 1e-8)
-    plt.imshow(shap_norm, cmap='RdBu')
+    # Overlay SHAP heatmap on original image
+    overlaid_shap = overlay_heatmap(image, shap_exp)
+    plt.imshow(overlaid_shap)
     plt.title('SHAP')
     plt.axis('off')
     
