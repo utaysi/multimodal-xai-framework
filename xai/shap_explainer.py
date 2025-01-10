@@ -12,8 +12,9 @@ class ShapExplainer:
     
     def predict_fn_image(self, images):
         """Helper function for SHAP image prediction"""
-        # Convert to torch tensor
-        batch = torch.stack([torch.from_numpy(img.transpose(2, 0, 1)).float() for img in images])
+        # Convert to torch tensor and move to correct device
+        device = next(self.model.parameters()).device
+        batch = torch.stack([torch.from_numpy(img.transpose(2, 0, 1)).float() for img in images]).to(device)
         
         with torch.no_grad():
             outputs = self.model(batch)
@@ -23,6 +24,7 @@ class ShapExplainer:
     
     def predict_fn_text(self, texts):
         """Helper function for SHAP text prediction"""
+        device = next(self.model.parameters()).device
         # Tokenize all texts in batch
         encodings = self.tokenizer(
             texts,
@@ -31,6 +33,8 @@ class ShapExplainer:
             max_length=128,
             return_tensors='pt'
         )
+        # Move encodings to correct device
+        encodings = {k: v.to(device) for k, v in encodings.items()}
         
         with torch.no_grad():
             outputs = self.model(**encodings)
@@ -49,6 +53,8 @@ class ShapExplainer:
             For images: Numpy array of shape (H, W) containing the SHAP values
             For text: Numpy array of shape (num_tokens,) containing token importance scores
         """
+        device = next(self.model.parameters()).device
+        
         if self.modality == 'image':
             # Convert torch tensor to numpy if needed
             if isinstance(data, torch.Tensor):
@@ -60,11 +66,11 @@ class ShapExplainer:
             # Initialize SHAP explainer for PyTorch
             explainer = shap.GradientExplainer(
                 model=self.model,
-                data=torch.from_numpy(background).float().permute(0, 3, 1, 2)
+                data=torch.from_numpy(background).float().permute(0, 3, 1, 2).to(device)
             )
             
             # Get SHAP values
-            input_tensor = torch.from_numpy(np.expand_dims(data, axis=0)).float().permute(0, 3, 1, 2)
+            input_tensor = torch.from_numpy(np.expand_dims(data, axis=0)).float().permute(0, 3, 1, 2).to(device)
             shap_values = explainer.shap_values(input_tensor)
             
             # Process SHAP values for visualization

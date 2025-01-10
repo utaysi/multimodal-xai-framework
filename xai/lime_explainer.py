@@ -15,8 +15,9 @@ class LimeExplainer:
     
     def predict_fn_image(self, images):
         """Helper function for LIME image prediction"""
+        device = next(self.model.parameters()).device
         # Convert to torch tensor and normalize if needed
-        batch = torch.stack([torch.from_numpy(img.transpose(2, 0, 1)).float() for img in images])
+        batch = torch.stack([torch.from_numpy(img.transpose(2, 0, 1)).float() for img in images]).to(device)
         
         with torch.no_grad():
             outputs = self.model(batch)
@@ -26,6 +27,7 @@ class LimeExplainer:
     
     def predict_fn_text(self, texts):
         """Helper function for LIME text prediction"""
+        device = next(self.model.parameters()).device
         # Tokenize all texts in batch
         encodings = self.tokenizer(
             texts,
@@ -34,6 +36,8 @@ class LimeExplainer:
             max_length=128,
             return_tensors='pt'
         )
+        # Move encodings to correct device
+        encodings = {k: v.to(device) for k, v in encodings.items()}
         
         with torch.no_grad():
             outputs = self.model(**encodings)

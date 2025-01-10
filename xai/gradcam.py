@@ -59,7 +59,7 @@ class GradCAMExplainer:
         weights = torch.mean(self.gradients, dim=(2, 3))
         
         # Weight the activations by the gradients
-        cam = torch.zeros(self.activations.shape[2:], dtype=torch.float32)
+        cam = torch.zeros(self.activations.shape[2:], dtype=torch.float32, device=self.activations.device)
         for i, w in enumerate(weights[0]):
             cam += w * self.activations[0, i]
         
