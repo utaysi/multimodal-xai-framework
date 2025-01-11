@@ -85,6 +85,15 @@ def process_image_data(device, output_dir, base_dir, num_samples='3'):
         logging.info(f"\nProcessing image {i+1}")
         logging.info(f"True label: {'Malignant' if label == 1 else 'Benign'}")
         
+        # Get model prediction
+        with torch.no_grad():
+            output = image_model(image.unsqueeze(0))
+            probs = torch.softmax(output, dim=1)
+            pred_label_idx = torch.argmax(probs).item()
+            pred_conf = probs[0][pred_label_idx].item()
+            pred_label = 'Malignant' if pred_label_idx == 1 else 'Benign'
+        logging.info(f"Model prediction: {pred_label} (confidence: {pred_conf:.3f})")
+        
         # Generate explanations
         gradcam_exp = gradcam.explain(image)
         shap_exp = shap_image.explain(image)
@@ -153,6 +162,16 @@ def process_text_data(device, output_dir, base_dir, num_samples='3'):
         logging.info(f"\nProcessing tweet {i+1}")
         logging.info(f"Text: {text}")
         logging.info(f"True sentiment: {['Negative', 'Neutral', 'Positive'][label]}")
+        
+        # Get model prediction
+        encoded = tokenizer(text, return_tensors='pt', padding=True, truncation=True)
+        encoded = {k: v.to(device) for k, v in encoded.items()}
+        with torch.no_grad():
+            output = text_model(**encoded)
+            probs = torch.softmax(output.logits, dim=1)
+            pred_label = torch.argmax(probs).item()
+            pred_conf = probs[0][pred_label].item()
+        logging.info(f"Model prediction: {['Negative', 'Neutral', 'Positive'][pred_label]} (confidence: {pred_conf:.3f})")
         
         # Generate explanations
         shap_exp = shap_text.explain(text)
