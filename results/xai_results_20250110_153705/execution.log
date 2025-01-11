@@ -1,0 +1,11 @@
+2025-01-10 15:37:05,892 - INFO - Using device: cuda
+2025-01-10 15:37:05,892 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250110_153705
+2025-01-10 15:37:05,892 - INFO - 
+Processing Image Dataset:
+2025-01-10 15:37:05,893 - INFO - Looking for tumor images in: C:\Users\utaysi\Desktop\multimodal-xai-framework\data\tumor_detection
+2025-01-10 15:37:05,893 - INFO - Found subdirectories: ['neg', 'pos']
+2025-01-10 15:37:06,220 - INFO - Loaded 361 tumor images
+2025-01-10 15:37:06,221 - INFO - Image XAI explainers initialized
+2025-01-10 15:37:06,236 - INFO - 
+Processing image 1
+2025-01-10 15:37:06,236 - INFO - True label: Benign

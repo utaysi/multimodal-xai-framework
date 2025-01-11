@@ -1,0 +1,40 @@
+2025-01-11 17:30:16,330 - INFO - Using device: cuda
+2025-01-11 17:30:16,331 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250111_173016
+2025-01-11 17:30:16,331 - INFO - 
+Processing Text Dataset:
+2025-01-11 17:30:17,233 - INFO - Loaded 27481 tweets
+2025-01-11 17:30:17,541 - INFO - Text XAI explainers initialized
+2025-01-11 17:30:17,543 - INFO - 
+Processing tweet 1
+2025-01-11 17:30:17,543 - INFO - Text:  I`d have responded, if I were going
+2025-01-11 17:30:17,543 - INFO - True sentiment: Neutral
+2025-01-11 17:30:17,664 - INFO - Model prediction: Neutral (confidence: 0.616)
+2025-01-11 17:30:18,261 - INFO - 
+XAI Method Evaluation:
+2025-01-11 17:30:18,261 - INFO - 
+SHAP - Faithfulness: 0.151
+2025-01-11 17:30:18,261 - INFO - Token importance scores:
+2025-01-11 17:30:18,261 - INFO -   I`d: 0.043
+2025-01-11 17:30:18,262 - INFO -   have: 0.027
+2025-01-11 17:30:18,262 - INFO -   responded,: 0.038
+2025-01-11 17:30:18,262 - INFO -   if: 0.011
+2025-01-11 17:30:18,262 - INFO -   I: 0.002
+2025-01-11 17:30:18,262 - INFO -   were: 0.002
+2025-01-11 17:30:18,262 - INFO -   going: 0.002
+2025-01-11 17:30:18,262 - INFO - 
+LIME - Faithfulness: 0.006
+2025-01-11 17:30:18,262 - INFO - Token importance scores:
+2025-01-11 17:30:18,263 - INFO -   I`d: 0.000
+2025-01-11 17:30:18,263 - INFO -   have: 0.004
+2025-01-11 17:30:18,263 - INFO -   responded,: 0.000
+2025-01-11 17:30:18,263 - INFO -   if: 0.002
+2025-01-11 17:30:18,263 - INFO -   I: 0.014
+2025-01-11 17:30:18,263 - INFO -   were: -0.002
+2025-01-11 17:30:18,263 - INFO -   going: -0.008
+2025-01-11 17:30:18,263 - INFO - 
+Method Comparison:
+2025-01-11 17:30:18,263 - INFO - Best performing method: SHAP
+2025-01-11 17:30:18,263 - INFO - Recommendations:
+2025-01-11 17:30:18,264 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 17:30:18,264 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 17:30:18,556 - INFO - Time taken: 1.01 seconds

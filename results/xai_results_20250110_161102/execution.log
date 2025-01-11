@@ -1,0 +1,10 @@
+2025-01-10 16:11:02,871 - INFO - Using device: cuda
+2025-01-10 16:11:02,871 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250110_161102
+2025-01-10 16:11:02,871 - INFO - 
+Processing Text Dataset:
+2025-01-10 16:11:11,190 - INFO - Loaded 27481 tweets
+2025-01-10 16:11:11,512 - INFO - Text XAI explainers initialized
+2025-01-10 16:11:11,514 - INFO - 
+Processing tweet 1
+2025-01-10 16:11:11,514 - INFO - Text:  I`d have responded, if I were going
+2025-01-10 16:11:11,514 - INFO - True sentiment: Neutral
