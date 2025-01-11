@@ -1,0 +1,288 @@
+2025-01-11 21:09:38,111 - INFO - Using device: cuda
+2025-01-11 21:09:38,111 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250111_210938
+2025-01-11 21:09:38,112 - INFO - 
+Processing Image Dataset:
+2025-01-11 21:09:38,112 - INFO - Looking for tumor images in: C:\Users\utaysi\Desktop\multimodal-xai-framework\data\tumor_detection
+2025-01-11 21:09:38,112 - INFO - Found subdirectories: ['neg', 'pos']
+2025-01-11 21:09:38,535 - INFO - Loaded 361 tumor images
+2025-01-11 21:09:38,536 - INFO - Image XAI explainers initialized
+2025-01-11 21:09:38,551 - INFO - 
+Processing image 1
+2025-01-11 21:09:38,551 - INFO - True label: Benign
+2025-01-11 21:09:38,738 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:09:46,387 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:09:46,388 - INFO - GradCAM - Faithfulness: 0.438, Range: 0.000 to 0.993
+2025-01-11 21:09:46,388 - INFO - SHAP - Faithfulness: 0.375, Range: 0.001 to 1.000
+2025-01-11 21:09:46,388 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:09:46,388 - INFO - 
+Method Comparison:
+2025-01-11 21:09:46,388 - INFO - Best performing method: GradCAM
+2025-01-11 21:09:46,388 - INFO - Recommendations:
+2025-01-11 21:09:46,389 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:09:46,389 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:09:46,389 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:09:46,531 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:46,547 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:46,692 - INFO - Time taken: 8.16 seconds
+2025-01-11 21:09:46,696 - INFO - 
+Processing image 2
+2025-01-11 21:09:46,697 - INFO - True label: Benign
+2025-01-11 21:09:46,702 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:09:50,387 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:09:50,387 - INFO - GradCAM - Faithfulness: 0.055, Range: 0.000 to 0.993
+2025-01-11 21:09:50,388 - INFO - SHAP - Faithfulness: 0.035, Range: 0.003 to 1.000
+2025-01-11 21:09:50,388 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:09:50,388 - INFO - 
+Method Comparison:
+2025-01-11 21:09:50,388 - INFO - Best performing method: GradCAM
+2025-01-11 21:09:50,388 - INFO - Recommendations:
+2025-01-11 21:09:50,388 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:09:50,389 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:09:50,389 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:09:50,476 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:50,608 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:50,743 - INFO - Time taken: 4.05 seconds
+2025-01-11 21:09:50,747 - INFO - 
+Processing image 3
+2025-01-11 21:09:50,748 - INFO - True label: Benign
+2025-01-11 21:09:50,752 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:09:54,561 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:09:54,561 - INFO - GradCAM - Faithfulness: 0.008, Range: 0.000 to 0.990
+2025-01-11 21:09:54,561 - INFO - SHAP - Faithfulness: 0.010, Range: 0.011 to 1.000
+2025-01-11 21:09:54,562 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:09:54,562 - INFO - 
+Method Comparison:
+2025-01-11 21:09:54,562 - INFO - Best performing method: SHAP
+2025-01-11 21:09:54,562 - INFO - Recommendations:
+2025-01-11 21:09:54,562 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:09:54,562 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:09:54,562 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:09:54,647 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:54,662 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:54,794 - INFO - Time taken: 4.05 seconds
+2025-01-11 21:09:54,798 - INFO - 
+Processing image 4
+2025-01-11 21:09:54,798 - INFO - True label: Benign
+2025-01-11 21:09:54,804 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:09:58,642 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:09:58,642 - INFO - GradCAM - Faithfulness: 0.008, Range: 0.000 to 0.993
+2025-01-11 21:09:58,642 - INFO - SHAP - Faithfulness: 0.003, Range: 0.001 to 1.000
+2025-01-11 21:09:58,642 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:09:58,642 - INFO - 
+Method Comparison:
+2025-01-11 21:09:58,643 - INFO - Best performing method: GradCAM
+2025-01-11 21:09:58,643 - INFO - Recommendations:
+2025-01-11 21:09:58,643 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:09:58,643 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:09:58,643 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:09:58,724 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:58,740 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:09:58,873 - INFO - Time taken: 4.08 seconds
+2025-01-11 21:09:58,877 - INFO - 
+Processing image 5
+2025-01-11 21:09:58,878 - INFO - True label: Benign
+2025-01-11 21:09:58,883 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:10:02,378 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:02,378 - INFO - GradCAM - Faithfulness: 0.446, Range: 0.000 to 0.989
+2025-01-11 21:10:02,379 - INFO - SHAP - Faithfulness: 0.573, Range: 0.002 to 1.000
+2025-01-11 21:10:02,379 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:10:02,379 - INFO - 
+Method Comparison:
+2025-01-11 21:10:02,379 - INFO - Best performing method: SHAP
+2025-01-11 21:10:02,379 - INFO - Recommendations:
+2025-01-11 21:10:02,379 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:10:02,379 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:02,458 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:10:02,472 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:10:02,610 - INFO - Time taken: 3.74 seconds
+2025-01-11 21:10:02,610 - INFO - 
+Processing Text Dataset:
+2025-01-11 21:10:03,443 - INFO - Loaded 27481 tweets
+2025-01-11 21:10:03,755 - INFO - Text XAI explainers initialized
+2025-01-11 21:10:03,757 - INFO - 
+Processing tweet 1
+2025-01-11 21:10:03,758 - INFO - Text:  I`d have responded, if I were going
+2025-01-11 21:10:03,758 - INFO - True sentiment: Neutral
+2025-01-11 21:10:03,783 - INFO - Model prediction: Positive (confidence: 0.369)
+2025-01-11 21:10:04,464 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:04,464 - INFO - 
+SHAP - Faithfulness: 0.075
+2025-01-11 21:10:04,465 - INFO - Token importance scores:
+2025-01-11 21:10:04,465 - INFO -   I`d: 0.034
+2025-01-11 21:10:04,465 - INFO -   have: 0.022
+2025-01-11 21:10:04,465 - INFO -   responded,: 0.031
+2025-01-11 21:10:04,466 - INFO -   if: 0.015
+2025-01-11 21:10:04,466 - INFO -   I: 0.006
+2025-01-11 21:10:04,466 - INFO -   were: 0.011
+2025-01-11 21:10:04,466 - INFO -   going: 0.008
+2025-01-11 21:10:04,466 - INFO - 
+LIME - Faithfulness: 0.013
+2025-01-11 21:10:04,466 - INFO - Token importance scores:
+2025-01-11 21:10:04,466 - INFO -   I`d: 0.000
+2025-01-11 21:10:04,466 - INFO -   have: -0.008
+2025-01-11 21:10:04,467 - INFO -   responded,: 0.000
+2025-01-11 21:10:04,467 - INFO -   if: -0.005
+2025-01-11 21:10:04,467 - INFO -   I: 0.001
+2025-01-11 21:10:04,467 - INFO -   were: -0.004
+2025-01-11 21:10:04,467 - INFO -   going: 0.010
+2025-01-11 21:10:04,467 - INFO - 
+Method Comparison:
+2025-01-11 21:10:04,467 - INFO - Best performing method: SHAP
+2025-01-11 21:10:04,467 - INFO - Recommendations:
+2025-01-11 21:10:04,467 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:10:04,468 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:04,650 - INFO - Time taken: 0.89 seconds
+2025-01-11 21:10:04,650 - INFO - 
+Processing tweet 2
+2025-01-11 21:10:04,651 - INFO - Text:  Sooo SAD I will miss you here in San Diego!!!
+2025-01-11 21:10:04,651 - INFO - True sentiment: Negative
+2025-01-11 21:10:04,661 - INFO - Model prediction: Positive (confidence: 0.403)
+2025-01-11 21:10:05,347 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:05,347 - INFO - 
+SHAP - Faithfulness: 0.023
+2025-01-11 21:10:05,348 - INFO - Token importance scores:
+2025-01-11 21:10:05,348 - INFO -   Sooo: 0.005
+2025-01-11 21:10:05,348 - INFO -   SAD: 0.002
+2025-01-11 21:10:05,348 - INFO -   I: 0.006
+2025-01-11 21:10:05,348 - INFO -   will: 0.006
+2025-01-11 21:10:05,348 - INFO -   miss: 0.012
+2025-01-11 21:10:05,348 - INFO -   you: 0.006
+2025-01-11 21:10:05,348 - INFO -   here: 0.005
+2025-01-11 21:10:05,348 - INFO -   in: 0.002
+2025-01-11 21:10:05,348 - INFO -   San: 0.005
+2025-01-11 21:10:05,348 - INFO -   Diego!!!: 0.018
+2025-01-11 21:10:05,349 - INFO - 
+LIME - Faithfulness: 0.014
+2025-01-11 21:10:05,349 - INFO - Token importance scores:
+2025-01-11 21:10:05,349 - INFO -   Sooo: 0.003
+2025-01-11 21:10:05,349 - INFO -   SAD: 0.001
+2025-01-11 21:10:05,349 - INFO -   I: 0.002
+2025-01-11 21:10:05,349 - INFO -   will: -0.000
+2025-01-11 21:10:05,349 - INFO -   miss: -0.003
+2025-01-11 21:10:05,349 - INFO -   you: 0.001
+2025-01-11 21:10:05,349 - INFO -   here: 0.001
+2025-01-11 21:10:05,349 - INFO -   in: -0.001
+2025-01-11 21:10:05,349 - INFO -   San: -0.001
+2025-01-11 21:10:05,350 - INFO -   Diego!!!: 0.000
+2025-01-11 21:10:05,350 - INFO - 
+Method Comparison:
+2025-01-11 21:10:05,350 - INFO - Best performing method: SHAP
+2025-01-11 21:10:05,350 - INFO - Recommendations:
+2025-01-11 21:10:05,350 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:10:05,350 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:05,542 - INFO - Time taken: 0.89 seconds
+2025-01-11 21:10:05,543 - INFO - 
+Processing tweet 3
+2025-01-11 21:10:05,544 - INFO - Text: my boss is bullying me...
+2025-01-11 21:10:05,544 - INFO - True sentiment: Negative
+2025-01-11 21:10:05,551 - INFO - Model prediction: Positive (confidence: 0.406)
+2025-01-11 21:10:06,127 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:06,128 - INFO - 
+SHAP - Faithfulness: 0.050
+2025-01-11 21:10:06,128 - INFO - Token importance scores:
+2025-01-11 21:10:06,128 - INFO -   my: 0.008
+2025-01-11 21:10:06,128 - INFO -   boss: 0.011
+2025-01-11 21:10:06,128 - INFO -   is: 0.012
+2025-01-11 21:10:06,128 - INFO -   bullying: 0.010
+2025-01-11 21:10:06,129 - INFO -   me...: 0.050
+2025-01-11 21:10:06,129 - INFO - 
+LIME - Faithfulness: 0.011
+2025-01-11 21:10:06,129 - INFO - Token importance scores:
+2025-01-11 21:10:06,129 - INFO -   my: 0.003
+2025-01-11 21:10:06,129 - INFO -   boss: 0.006
+2025-01-11 21:10:06,129 - INFO -   is: 0.002
+2025-01-11 21:10:06,129 - INFO -   bullying: -0.002
+2025-01-11 21:10:06,129 - INFO -   me...: 0.000
+2025-01-11 21:10:06,130 - INFO - 
+Method Comparison:
+2025-01-11 21:10:06,130 - INFO - Best performing method: SHAP
+2025-01-11 21:10:06,130 - INFO - Recommendations:
+2025-01-11 21:10:06,130 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:10:06,130 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:06,305 - INFO - Time taken: 0.76 seconds
+2025-01-11 21:10:06,306 - INFO - 
+Processing tweet 4
+2025-01-11 21:10:06,306 - INFO - Text:  what interview! leave me alone
+2025-01-11 21:10:06,306 - INFO - True sentiment: Negative
+2025-01-11 21:10:06,313 - INFO - Model prediction: Positive (confidence: 0.428)
+2025-01-11 21:10:06,861 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:06,861 - INFO - 
+SHAP - Faithfulness: 0.020
+2025-01-11 21:10:06,861 - INFO - Token importance scores:
+2025-01-11 21:10:06,861 - INFO -   what: 0.020
+2025-01-11 21:10:06,861 - INFO -   interview!: 0.016
+2025-01-11 21:10:06,862 - INFO -   leave: 0.009
+2025-01-11 21:10:06,862 - INFO -   me: 0.012
+2025-01-11 21:10:06,862 - INFO -   alone: 0.015
+2025-01-11 21:10:06,862 - INFO - 
+LIME - Faithfulness: 0.020
+2025-01-11 21:10:06,862 - INFO - Token importance scores:
+2025-01-11 21:10:06,862 - INFO -   what: 0.006
+2025-01-11 21:10:06,862 - INFO -   interview!: 0.000
+2025-01-11 21:10:06,862 - INFO -   leave: 0.001
+2025-01-11 21:10:06,862 - INFO -   me: 0.000
+2025-01-11 21:10:06,863 - INFO -   alone: 0.003
+2025-01-11 21:10:06,863 - INFO - 
+Method Comparison:
+2025-01-11 21:10:06,863 - INFO - Best performing method: SHAP
+2025-01-11 21:10:06,863 - INFO - Recommendations:
+2025-01-11 21:10:06,863 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:10:06,863 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:07,034 - INFO - Time taken: 0.73 seconds
+2025-01-11 21:10:07,035 - INFO - 
+Processing tweet 5
+2025-01-11 21:10:07,035 - INFO - Text:  Sons of ****, why couldn`t they put them on the releases we already bought
+2025-01-11 21:10:07,035 - INFO - True sentiment: Negative
+2025-01-11 21:10:07,044 - INFO - Model prediction: Positive (confidence: 0.378)
+2025-01-11 21:10:07,846 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:10:07,847 - INFO - 
+SHAP - Faithfulness: 0.051
+2025-01-11 21:10:07,847 - INFO - Token importance scores:
+2025-01-11 21:10:07,847 - INFO -   Sons: 0.004
+2025-01-11 21:10:07,847 - INFO -   of: 0.011
+2025-01-11 21:10:07,847 - INFO -   ****,: 0.021
+2025-01-11 21:10:07,847 - INFO -   why: 0.003
+2025-01-11 21:10:07,848 - INFO -   couldn`t: 0.021
+2025-01-11 21:10:07,848 - INFO -   they: 0.002
+2025-01-11 21:10:07,848 - INFO -   put: 0.003
+2025-01-11 21:10:07,848 - INFO -   them: 0.007
+2025-01-11 21:10:07,848 - INFO -   on: 0.006
+2025-01-11 21:10:07,848 - INFO -   the: 0.006
+2025-01-11 21:10:07,848 - INFO -   releases: 0.009
+2025-01-11 21:10:07,848 - INFO -   we: 0.006
+2025-01-11 21:10:07,848 - INFO -   already: 0.003
+2025-01-11 21:10:07,848 - INFO -   bought: 0.015
+2025-01-11 21:10:07,848 - INFO - 
+LIME - Faithfulness: 0.023
+2025-01-11 21:10:07,849 - INFO - Token importance scores:
+2025-01-11 21:10:07,849 - INFO -   Sons: 0.000
+2025-01-11 21:10:07,849 - INFO -   of: 0.004
+2025-01-11 21:10:07,849 - INFO -   ****,: 0.000
+2025-01-11 21:10:07,849 - INFO -   why: 0.004
+2025-01-11 21:10:07,849 - INFO -   couldn`t: 0.000
+2025-01-11 21:10:07,849 - INFO -   they: -0.001
+2025-01-11 21:10:07,849 - INFO -   put: -0.003
+2025-01-11 21:10:07,850 - INFO -   them: 0.002
+2025-01-11 21:10:07,850 - INFO -   on: 0.000
+2025-01-11 21:10:07,850 - INFO -   the: 0.002
+2025-01-11 21:10:07,850 - INFO -   releases: 0.004
+2025-01-11 21:10:07,850 - INFO -   we: 0.000
+2025-01-11 21:10:07,850 - INFO -   already: 0.001
+2025-01-11 21:10:07,851 - INFO -   bought: -0.006
+2025-01-11 21:10:07,851 - INFO - 
+Method Comparison:
+2025-01-11 21:10:07,851 - INFO - Best performing method: SHAP
+2025-01-11 21:10:07,851 - INFO - Recommendations:
+2025-01-11 21:10:07,851 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:10:07,851 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:10:08,061 - INFO - Time taken: 1.03 seconds
