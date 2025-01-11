@@ -1,0 +1,27 @@
+2025-01-11 21:04:42,003 - INFO - Using device: cuda
+2025-01-11 21:04:42,003 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250111_210441
+2025-01-11 21:04:42,003 - INFO - 
+Processing Image Dataset:
+2025-01-11 21:04:42,003 - INFO - Looking for tumor images in: C:\Users\utaysi\Desktop\multimodal-xai-framework\data\tumor_detection
+2025-01-11 21:04:42,004 - INFO - Found subdirectories: ['neg', 'pos']
+2025-01-11 21:04:42,453 - INFO - Loaded 361 tumor images
+2025-01-11 21:04:42,454 - INFO - Image XAI explainers initialized
+2025-01-11 21:04:42,471 - INFO - 
+Processing image 1
+2025-01-11 21:04:42,471 - INFO - True label: Benign
+2025-01-11 21:04:42,656 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-11 21:04:50,295 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:04:50,296 - INFO - GradCAM - Faithfulness: 0.438, Range: 0.000 to 0.993
+2025-01-11 21:04:50,296 - INFO - SHAP - Faithfulness: 0.375, Range: 0.001 to 1.000
+2025-01-11 21:04:50,296 - INFO - LIME - Faithfulness: 0.000, Range: -2.118 to 2.640
+2025-01-11 21:04:50,296 - INFO - 
+Method Comparison:
+2025-01-11 21:04:50,297 - INFO - Best performing method: GradCAM
+2025-01-11 21:04:50,297 - INFO - Recommendations:
+2025-01-11 21:04:50,297 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-11 21:04:50,297 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:04:50,297 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:04:50,451 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:04:50,467 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-11 21:04:50,618 - INFO - Time taken: 8.16 seconds

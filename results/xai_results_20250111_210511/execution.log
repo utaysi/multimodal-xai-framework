@@ -1,0 +1,40 @@
+2025-01-11 21:05:11,868 - INFO - Using device: cuda
+2025-01-11 21:05:11,868 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250111_210511
+2025-01-11 21:05:11,868 - INFO - 
+Processing Text Dataset:
+2025-01-11 21:05:12,753 - INFO - Loaded 27481 tweets
+2025-01-11 21:05:13,165 - INFO - Text XAI explainers initialized
+2025-01-11 21:05:13,167 - INFO - 
+Processing tweet 1
+2025-01-11 21:05:13,167 - INFO - Text:  I`d have responded, if I were going
+2025-01-11 21:05:13,167 - INFO - True sentiment: Neutral
+2025-01-11 21:05:13,286 - INFO - Model prediction: Neutral (confidence: 0.400)
+2025-01-11 21:05:13,880 - INFO - 
+XAI Method Evaluation:
+2025-01-11 21:05:13,880 - INFO - 
+SHAP - Faithfulness: 0.077
+2025-01-11 21:05:13,880 - INFO - Token importance scores:
+2025-01-11 21:05:13,881 - INFO -   I`d: 0.023
+2025-01-11 21:05:13,881 - INFO -   have: 0.036
+2025-01-11 21:05:13,881 - INFO -   responded,: 0.056
+2025-01-11 21:05:13,881 - INFO -   if: 0.020
+2025-01-11 21:05:13,882 - INFO -   I: 0.010
+2025-01-11 21:05:13,882 - INFO -   were: 0.004
+2025-01-11 21:05:13,882 - INFO -   going: 0.006
+2025-01-11 21:05:13,882 - INFO - 
+LIME - Faithfulness: 0.022
+2025-01-11 21:05:13,882 - INFO - Token importance scores:
+2025-01-11 21:05:13,882 - INFO -   I`d: 0.000
+2025-01-11 21:05:13,882 - INFO -   have: -0.015
+2025-01-11 21:05:13,882 - INFO -   responded,: 0.000
+2025-01-11 21:05:13,882 - INFO -   if: -0.002
+2025-01-11 21:05:13,882 - INFO -   I: -0.005
+2025-01-11 21:05:13,883 - INFO -   were: -0.006
+2025-01-11 21:05:13,883 - INFO -   going: 0.007
+2025-01-11 21:05:13,883 - INFO - 
+Method Comparison:
+2025-01-11 21:05:13,883 - INFO - Best performing method: SHAP
+2025-01-11 21:05:13,883 - INFO - Recommendations:
+2025-01-11 21:05:13,883 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-11 21:05:13,883 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-11 21:05:14,150 - INFO - Time taken: 0.98 seconds
