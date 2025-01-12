@@ -1,0 +1,32 @@
+2025-01-12 02:51:38,660 - INFO - Using device: cuda
+2025-01-12 02:51:38,661 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250112_025138
+2025-01-12 02:51:38,661 - INFO - 
+Processing Image Dataset:
+2025-01-12 02:51:38,661 - INFO - Looking for tumor images in: C:\Users\utaysi\Desktop\multimodal-xai-framework\data\tumor_detection
+2025-01-12 02:51:38,662 - INFO - Found subdirectories: ['neg', 'pos']
+2025-01-12 02:51:39,104 - INFO - Loaded 361 tumor images
+2025-01-12 02:51:39,105 - INFO - Image XAI explainers initialized
+2025-01-12 02:51:39,138 - INFO - 
+Processing image 1
+2025-01-12 02:51:39,139 - INFO - True label: Benign
+2025-01-12 02:51:39,349 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 02:51:47,509 - INFO - 
+XAI Method Evaluation:
+2025-01-12 02:51:47,509 - INFO - GradCAM:
+2025-01-12 02:51:47,509 - INFO -   Faithfulness: 0.440
+2025-01-12 02:51:47,509 - INFO -   Consistency: 0.702
+2025-01-12 02:51:47,510 - INFO -   Localization: 0.490
+2025-01-12 02:51:47,510 - INFO - SHAP:
+2025-01-12 02:51:47,510 - INFO -   Faithfulness: 0.375
+2025-01-12 02:51:47,510 - INFO - LIME:
+2025-01-12 02:51:47,510 - INFO -   Faithfulness: 0.000
+2025-01-12 02:51:47,510 - INFO - 
+Method Comparison:
+2025-01-12 02:51:47,510 - INFO - Best performing method: GradCAM
+2025-01-12 02:51:47,511 - INFO - Recommendations:
+2025-01-12 02:51:47,511 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 02:51:47,511 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-12 02:51:47,511 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 02:51:47,689 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 02:51:47,707 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 02:51:47,863 - INFO - Time taken: 8.76 seconds

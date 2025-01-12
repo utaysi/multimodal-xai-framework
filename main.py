@@ -9,7 +9,7 @@ from models.text_model import get_text_model
 from utils.evaluator import XAIEvaluator
 from utils.data_loader import TumorDataset, TweetDataset
 from utils.visualizer import visualize_explanations, visualize_text_explanations
-from xai.gradcam import GradCAMExplainer
+from xai.gradcam import GradCAM
 from xai.shap_explainer import ShapExplainer
 from xai.lime_explainer import LimeExplainer
 from transformers import AutoTokenizer
@@ -70,7 +70,7 @@ def process_image_data(device, output_dir, base_dir, num_samples='3'):
     logging.info(f"Loaded {len(tumor_dataset)} tumor images")
     
     # Initialize XAI methods
-    gradcam = GradCAMExplainer(image_model)
+    gradcam = GradCAM(image_model)
     shap_image = ShapExplainer(image_model, 'image')
     lime_image = LimeExplainer(image_model, 'image')
     logging.info("Image XAI explainers initialized")
@@ -79,8 +79,11 @@ def process_image_data(device, output_dir, base_dir, num_samples='3'):
     samples_to_process = len(tumor_dataset) if num_samples == 'all' else min(int(num_samples), len(tumor_dataset))
     for i in range(samples_to_process):
         start_time = time.time()
-        image, label = tumor_dataset[i]
-        image = image.to(device)
+        sample = tumor_dataset[i]
+        image = sample['image'].to(device)
+        label = sample['label']
+        mask = sample['mask'].to(device)
+        similar_inputs = [x.to(device) for x in sample['similar_inputs']]
         
         logging.info(f"\nProcessing image {i+1}")
         logging.info(f"True label: {'Malignant' if label == 1 else 'Benign'}")
@@ -102,23 +105,54 @@ def process_image_data(device, output_dir, base_dir, num_samples='3'):
         # Evaluate and compare XAI methods
         evaluator = XAIEvaluator()
         
-        # Calculate faithfulness scores
-        gradcam_faith = evaluator.evaluate_faithfulness(image_model, image, gradcam_exp, mode='image')
-        shap_faith = evaluator.evaluate_faithfulness(image_model, image, shap_exp, mode='image')
-        lime_faith = evaluator.evaluate_faithfulness(image_model, image, lime_exp, mode='image')
+        # Evaluate explanations using all metrics
+        gradcam_eval = evaluator.evaluate_all(
+            model=image_model,
+            data=image,
+            explanation=gradcam_exp,
+            mode='image',
+            ground_truth_mask=mask,
+            similar_inputs=similar_inputs
+        )
+        
+        shap_eval = evaluator.evaluate_all(
+            model=image_model,
+            data=image,
+            explanation=shap_exp,
+            mode='image',
+            ground_truth_mask=None,
+            similar_inputs=None
+        )
+        
+        lime_eval = evaluator.evaluate_all(
+            model=image_model,
+            data=image,
+            explanation=lime_exp,
+            mode='image',
+            ground_truth_mask=None,
+            similar_inputs=None
+        )
         
         # Log results
         logging.info("\nXAI Method Evaluation:")
-        logging.info(f"GradCAM - Faithfulness: {gradcam_faith:.3f}, Range: {gradcam_exp.min():.3f} to {gradcam_exp.max():.3f}")
-        logging.info(f"SHAP - Faithfulness: {shap_faith:.3f}, Range: {shap_exp.min():.3f} to {shap_exp.max():.3f}")
+        logging.info("GradCAM:")
+        for metric, score in gradcam_eval.items():
+            logging.info(f"  {metric.capitalize()}: {score:.3f}")
+            
+        logging.info("SHAP:")
+        for metric, score in shap_eval.items():
+            logging.info(f"  {metric.capitalize()}: {score:.3f}")
+            
         if isinstance(lime_exp, np.ndarray):
-            logging.info(f"LIME - Faithfulness: {lime_faith:.3f}, Range: {lime_exp.min():.3f} to {lime_exp.max():.3f}")
+            logging.info("LIME:")
+            for metric, score in lime_eval.items():
+                logging.info(f"  {metric.capitalize()}: {score:.3f}")
         
-        # Compare methods
+        # Compare methods using all evaluation metrics
         results = {
-            'GradCAM': {'faithfulness': gradcam_faith},
-            'SHAP': {'faithfulness': shap_faith},
-            'LIME': {'faithfulness': lime_faith}
+            'GradCAM': gradcam_eval,
+            'SHAP': shap_eval,
+            'LIME': lime_eval
         }
         comparison = evaluator.compare_methods(results)
         

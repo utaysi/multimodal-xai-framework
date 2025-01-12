@@ -9,8 +9,7 @@ class XAIEvaluator:
     @staticmethod
     def evaluate_faithfulness(model, data, explanation, mode='text'):
         """
-        Evaluate how faithful the explanation is to the model's decision
-        by measuring prediction change when most important features are removed
+        Evaluate how faithful the explanation is to the model's predictions
         
         Args:
             model: The model being explained
@@ -19,7 +18,7 @@ class XAIEvaluator:
             mode: 'text' or 'image'
             
         Returns:
-            faithfulness_score: How well explanation identifies important features
+            faithfulness_score: How much the prediction changes when important features are removed
         """
         if mode == 'text':
             # For text, remove top K% important words and check prediction change
@@ -122,7 +121,67 @@ class XAIEvaluator:
             
             # Faithfulness score = prediction difference
             return np.abs(orig_pred - mask_pred).mean()
+
+    @staticmethod
+    def evaluate_all(model, data, explanation, mode='text', ground_truth_mask=None, similar_inputs=None):
+        """
+        Evaluate explanation using all available metrics
+        
+        Args:
+            model: The model being explained
+            data: Original input data
+            explanation: Explanation scores for features
+            mode: 'text' or 'image'
+            ground_truth_mask: Binary mask for localization (image mode only)
+            similar_inputs: List of similar inputs for consistency evaluation
+            
+        Returns:
+            Dictionary containing all evaluation metrics
+        """
+        results = {}
+        
+        # Faithfulness
+        results['faithfulness'] = XAIEvaluator.evaluate_faithfulness(model, data, explanation, mode)
+        
+        # Consistency (if similar inputs provided)
+        if similar_inputs is not None:
+            results['consistency'] = XAIEvaluator.evaluate_consistency(
+                [explanation] + [XAIEvaluator.generate_explanation(model, x, mode) for x in similar_inputs],
+                [data] + similar_inputs
+            )
+            
+        # Localization (if ground truth provided)
+        if ground_truth_mask is not None and mode == 'image':
+            results['localization'] = XAIEvaluator.evaluate_localization(explanation, ground_truth_mask)
+            
+        return results
     
+    @staticmethod
+    def generate_explanation(model, data, mode='text'):
+        """
+        Generate explanation for given input data
+        
+        Args:
+            model: The model to explain
+            data: Input data to explain
+            mode: 'text' or 'image'
+            
+        Returns:
+            Explanation scores for features
+        """
+        if mode == 'text':
+            # For text explanations, use LIME by default
+            from xai.lime_explainer import LimeTextExplainer
+            explainer = LimeTextExplainer()
+            return explainer.explain_instance(model, data)
+        elif mode == 'image':
+            # For image explanations, use GradCAM by default
+            from xai.gradcam import GradCAM
+            explainer = GradCAM(model)
+            return explainer.generate(data)
+        else:
+            raise ValueError(f"Unsupported mode: {mode}")
+            
     @staticmethod
     def evaluate_consistency(explanations, similar_inputs):
         """
@@ -163,10 +222,23 @@ class XAIEvaluator:
         Returns:
             iou_score: Intersection over Union score
         """
-        # Threshold explanation to create binary mask
+        # Ensure both tensors are on CPU
         if isinstance(explanation, torch.Tensor):
             explanation = explanation.cpu().numpy()
+        if isinstance(ground_truth_mask, torch.Tensor):
+            ground_truth_mask = ground_truth_mask.cpu().numpy()
+            
+        # Resize ground truth mask to match explanation dimensions
+        import cv2
+        target_size = explanation.shape[:2]
+        ground_truth_mask = cv2.resize(
+            ground_truth_mask.astype(np.float32),
+            (target_size[1], target_size[0]),
+            interpolation=cv2.INTER_NEAREST
+        )
+        ground_truth_mask = ground_truth_mask > 0.5  # Convert back to binary mask
         
+        # Threshold explanation to create binary mask
         exp_mask = explanation > np.percentile(explanation, 70)  # Top 30% as important
         
         # Calculate IoU
