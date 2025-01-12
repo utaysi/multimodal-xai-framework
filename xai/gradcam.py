@@ -1,124 +1,89 @@
+from typing import Optional, Union
 import torch
-import torch.nn.functional as F
 import numpy as np
+from captum.attr import LayerGradCam
+from captum.attr._utils.visualization import visualize_image_attr
 
 class GradCAM:
-    def __init__(self, model):
+    def __init__(self, model, target_layer: Optional[torch.nn.Module] = None):
+        """
+        Initialize GradCAM explainer using Captum's implementation
+        
+        Args:
+            model: PyTorch model to explain
+            target_layer: Target convolutional layer for GradCAM. If None, will
+                        automatically find the last convolutional layer.
+        """
         self.model = model
         self.model.eval()
         
-        # Get the last convolutional layer
-        self.target_layer = None
-        for module in self.model.modules():
-            if isinstance(module, torch.nn.Conv2d):
-                self.target_layer = module
-                
-        # For guided backpropagation
-        self.hooks = []
-        for module in self.model.modules():
-            if isinstance(module, torch.nn.ReLU):
-                self.hooks.append(module.register_backward_hook(self._relu_backward_hook))
+        # Find target layer if not provided
+        if target_layer is None:
+            for module in self.model.modules():
+                if isinstance(module, torch.nn.Conv2d):
+                    target_layer = module
+            if target_layer is None:
+                raise ValueError("Could not find convolutional layer in model")
         
-        if self.target_layer is None:
-            raise ValueError("Could not find convolutional layer in model")
+        self.explainer = LayerGradCam(self.model, target_layer)
         
-        self.gradients = None
-        self.activations = None
-        
-        # Register hooks
-        self.target_layer.register_forward_hook(self._save_activation)
-        self.target_layer.register_backward_hook(self._save_gradient)
-    
-    def _save_activation(self, module, input, output):
-        self.activations = output.detach()
-    
-    def _save_gradient(self, module, grad_input, grad_output):
-        self.gradients = grad_output[0].detach()
-        
-    def _relu_backward_hook(self, module, grad_input, grad_output):
-        # Guided backpropagation - only pass positive gradients
-        if isinstance(module, torch.nn.ReLU):
-            return (F.relu(grad_input[0]),)
-    
-    def explain(self, image):
+    def explain(self, image: torch.Tensor, target: Optional[int] = None) -> np.ndarray:
         """
         Generate GradCAM heatmap for the input image
         
         Args:
-            image: Input image tensor of shape (C, H, W)
-        
+            image: Input image tensor of shape (C, H, W) or (1, C, H, W)
+            target: Target class index to explain. If None, uses model's prediction
+            
         Returns:
             Numpy array of shape (H, W) containing the GradCAM heatmap
         """
         # Add batch dimension if needed
         if len(image.shape) == 3:
             image = image.unsqueeze(0)
+            
+        # Get model prediction if target not specified
+        if target is None:
+            with torch.no_grad():
+                output = self.model(image)
+                target = output.argmax(dim=1).item()
         
-        # Forward pass
-        output = self.model(image)
+        # Generate GradCAM attribution
+        attribution = self.explainer.attribute(
+            image,
+            target=target,
+            relu_attributions=True
+        )
         
-        # Get predicted class (maximum probability)
-        pred_class = output.argmax(dim=1)
+        # Convert to numpy and remove batch dimension
+        heatmap = attribution.squeeze().cpu().detach().numpy()
         
-        # Zero gradients
-        self.model.zero_grad()
-        
-        # Backward pass for predicted class
-        output[0, pred_class].backward()
-        
-        # GradCAM++ weight calculation
-        gradients = self.gradients
-        activations = self.activations
-        
-        # Calculate alpha coefficients
-        numerator = gradients.pow(2)
-        denominator = 2 * gradients.pow(2) + \
-            activations * gradients.pow(3).sum(dim=(2, 3), keepdim=True)
-        alpha = numerator / (denominator + 1e-7)
-        
-        # Calculate weights using weighted average
-        weights = (alpha * F.relu(gradients)).sum(dim=(2, 3))
-        
-        # Weight the activations by the gradients
-        cam = torch.zeros(activations.shape[2:], dtype=torch.float32, device=activations.device)
-        for i, w in enumerate(weights[0]):
-            cam += w * activations[0, i]
-        
-        # Apply ReLU to focus on features that have a positive influence
-        cam = F.relu(cam)
-        
-        # Normalize
-        cam = cam - cam.min()
-        cam = cam / (cam.max() + 1e-7)
-        
-        # Resize to input image size
-        cam = F.interpolate(
-            cam.unsqueeze(0).unsqueeze(0),
-            size=image.shape[2:],
+        # Ensure proper dimensions for interpolation
+        if len(attribution.shape) == 2:
+            attribution = attribution.unsqueeze(0).unsqueeze(0)  # Add batch and channel dims
+        elif len(attribution.shape) == 3:
+            attribution = attribution.unsqueeze(1)  # Add channel dim
+            
+        # Upsample heatmap to match input image size
+        heatmap = torch.nn.functional.interpolate(
+            attribution,
+            size=image.shape[-2:],
             mode='bilinear',
             align_corners=False
         )
         
-        # Generate guided GradCAM by multiplying with guided backprop
-        guided_grads = self.gradients.mean(dim=1, keepdim=True)
-        # Resize guided gradients to match CAM size
-        guided_grads = F.interpolate(
-            guided_grads,
-            size=image.shape[2:],
-            mode='bilinear',
-            align_corners=False
-        )
-        guided_cam = cam * guided_grads
+        # Remove batch and channel dimensions
+        heatmap = heatmap.squeeze().cpu().detach().numpy()
         
-        # Normalize guided GradCAM
-        guided_cam = guided_cam - guided_cam.min()
-        guided_cam = guided_cam / (guided_cam.max() + 1e-7)
+        # Apply sigmoid normalization for better contrast
+        heatmap = 1 / (1 + np.exp(-heatmap))
         
-        return guided_cam[0, 0].cpu().numpy()
+        # Clip and normalize to [0, 1] range
+        heatmap = np.clip(heatmap, 0, 1)
+        heatmap = (heatmap - heatmap.min()) / (heatmap.max() - heatmap.min() + 1e-7)
+        
+        return heatmap
 
-    def generate(self, input_tensor):
-        """Generate GradCAM explanation (alias for explain)"""
-        result = self.explain(input_tensor)
-        if isinstance(result, torch.Tensor):
-            result = result.cpu()
-        return result
+    def generate(self, input_tensor: torch.Tensor) -> np.ndarray:
+        """Alias for explain method for backward compatibility"""
+        return self.explain(input_tensor)

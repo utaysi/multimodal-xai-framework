@@ -1,0 +1,129 @@
+2025-01-12 07:20:29,255 - INFO - Using device: cuda
+2025-01-12 07:20:29,255 - INFO - Saving results to: C:\Users\utaysi\Desktop\multimodal-xai-framework\results\xai_results_20250112_072029
+2025-01-12 07:20:29,256 - INFO - 
+Processing Image Dataset:
+2025-01-12 07:20:29,256 - INFO - Looking for tumor images in: C:\Users\utaysi\Desktop\multimodal-xai-framework\data\tumor_detection
+2025-01-12 07:20:29,256 - INFO - Found subdirectories: ['neg', 'pos']
+2025-01-12 07:20:29,688 - INFO - Loaded 361 tumor images
+2025-01-12 07:20:29,689 - INFO - Image XAI explainers initialized
+2025-01-12 07:20:29,719 - INFO - 
+Processing image 1
+2025-01-12 07:20:29,719 - INFO - True label: Benign
+2025-01-12 07:20:29,917 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 07:20:37,608 - INFO - 
+XAI Method Evaluation:
+2025-01-12 07:20:37,608 - INFO - GradCAM:
+2025-01-12 07:20:37,609 - INFO -   Faithfulness: 0.438
+2025-01-12 07:20:37,609 - INFO -   Consistency: 0.491
+2025-01-12 07:20:37,609 - INFO -   Localization: 0.509
+2025-01-12 07:20:37,609 - INFO - SHAP:
+2025-01-12 07:20:37,609 - INFO -   Faithfulness: 0.375
+2025-01-12 07:20:37,609 - INFO - LIME:
+2025-01-12 07:20:37,609 - INFO -   Faithfulness: 0.000
+2025-01-12 07:20:37,610 - INFO - 
+Method Comparison:
+2025-01-12 07:20:37,610 - INFO - Best performing method: GradCAM
+2025-01-12 07:20:37,610 - INFO - Recommendations:
+2025-01-12 07:20:37,610 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 07:20:37,610 - INFO - - Investigate why GradCAM shows low consistency across similar inputs
+2025-01-12 07:20:37,610 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-12 07:20:37,610 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 07:20:37,769 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:37,786 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:37,931 - INFO - Time taken: 8.24 seconds
+2025-01-12 07:20:37,947 - INFO - 
+Processing image 2
+2025-01-12 07:20:37,948 - INFO - True label: Benign
+2025-01-12 07:20:37,954 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 07:20:41,560 - INFO - 
+XAI Method Evaluation:
+2025-01-12 07:20:41,561 - INFO - GradCAM:
+2025-01-12 07:20:41,561 - INFO -   Faithfulness: 0.055
+2025-01-12 07:20:41,561 - INFO -   Consistency: 0.813
+2025-01-12 07:20:41,561 - INFO -   Localization: 0.370
+2025-01-12 07:20:41,561 - INFO - SHAP:
+2025-01-12 07:20:41,561 - INFO -   Faithfulness: 0.035
+2025-01-12 07:20:41,561 - INFO - LIME:
+2025-01-12 07:20:41,562 - INFO -   Faithfulness: 0.000
+2025-01-12 07:20:41,562 - INFO - 
+Method Comparison:
+2025-01-12 07:20:41,562 - INFO - Best performing method: GradCAM
+2025-01-12 07:20:41,562 - INFO - Recommendations:
+2025-01-12 07:20:41,562 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 07:20:41,562 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-12 07:20:41,562 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 07:20:41,643 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:41,658 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:41,797 - INFO - Time taken: 3.87 seconds
+2025-01-12 07:20:41,813 - INFO - 
+Processing image 3
+2025-01-12 07:20:41,813 - INFO - True label: Benign
+2025-01-12 07:20:41,818 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 07:20:45,629 - INFO - 
+XAI Method Evaluation:
+2025-01-12 07:20:45,630 - INFO - GradCAM:
+2025-01-12 07:20:45,630 - INFO -   Faithfulness: 0.008
+2025-01-12 07:20:45,630 - INFO -   Consistency: 0.133
+2025-01-12 07:20:45,630 - INFO -   Localization: 0.297
+2025-01-12 07:20:45,630 - INFO - SHAP:
+2025-01-12 07:20:45,630 - INFO -   Faithfulness: 0.010
+2025-01-12 07:20:45,630 - INFO - LIME:
+2025-01-12 07:20:45,631 - INFO -   Faithfulness: 0.000
+2025-01-12 07:20:45,631 - INFO - 
+Method Comparison:
+2025-01-12 07:20:45,631 - INFO - Best performing method: GradCAM
+2025-01-12 07:20:45,631 - INFO - Recommendations:
+2025-01-12 07:20:45,631 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 07:20:45,631 - INFO - - Investigate why GradCAM shows low consistency across similar inputs
+2025-01-12 07:20:45,631 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-12 07:20:45,632 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 07:20:45,713 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:45,728 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:45,860 - INFO - Time taken: 4.06 seconds
+2025-01-12 07:20:45,875 - INFO - 
+Processing image 4
+2025-01-12 07:20:45,876 - INFO - True label: Benign
+2025-01-12 07:20:45,883 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 07:20:49,752 - INFO - 
+XAI Method Evaluation:
+2025-01-12 07:20:49,752 - INFO - GradCAM:
+2025-01-12 07:20:49,753 - INFO -   Faithfulness: 0.008
+2025-01-12 07:20:49,753 - INFO -   Consistency: 0.601
+2025-01-12 07:20:49,753 - INFO -   Localization: 0.259
+2025-01-12 07:20:49,753 - INFO - SHAP:
+2025-01-12 07:20:49,753 - INFO -   Faithfulness: 0.003
+2025-01-12 07:20:49,753 - INFO - LIME:
+2025-01-12 07:20:49,753 - INFO -   Faithfulness: 0.000
+2025-01-12 07:20:49,753 - INFO - 
+Method Comparison:
+2025-01-12 07:20:49,754 - INFO - Best performing method: GradCAM
+2025-01-12 07:20:49,754 - INFO - Recommendations:
+2025-01-12 07:20:49,754 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 07:20:49,754 - INFO - - Consider improving SHAP's faithfulness through better feature attribution
+2025-01-12 07:20:49,754 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 07:20:49,838 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:49,853 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:49,985 - INFO - Time taken: 4.12 seconds
+2025-01-12 07:20:50,001 - INFO - 
+Processing image 5
+2025-01-12 07:20:50,001 - INFO - True label: Benign
+2025-01-12 07:20:50,006 - INFO - Model prediction: Benign (confidence: 1.000)
+2025-01-12 07:20:53,543 - INFO - 
+XAI Method Evaluation:
+2025-01-12 07:20:53,543 - INFO - GradCAM:
+2025-01-12 07:20:53,544 - INFO -   Faithfulness: 0.446
+2025-01-12 07:20:53,544 - INFO -   Consistency: 0.587
+2025-01-12 07:20:53,544 - INFO -   Localization: 0.488
+2025-01-12 07:20:53,544 - INFO - SHAP:
+2025-01-12 07:20:53,544 - INFO -   Faithfulness: 0.573
+2025-01-12 07:20:53,544 - INFO - LIME:
+2025-01-12 07:20:53,544 - INFO -   Faithfulness: 0.000
+2025-01-12 07:20:53,544 - INFO - 
+Method Comparison:
+2025-01-12 07:20:53,544 - INFO - Best performing method: SHAP
+2025-01-12 07:20:53,545 - INFO - Recommendations:
+2025-01-12 07:20:53,545 - INFO - - Consider improving GradCAM's faithfulness through better feature attribution
+2025-01-12 07:20:53,545 - INFO - - Consider improving LIME's faithfulness through better feature attribution
+2025-01-12 07:20:53,627 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:53,642 - WARNING - Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-2.117904..2.64].
+2025-01-12 07:20:53,782 - INFO - Time taken: 3.80 seconds
